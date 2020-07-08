@@ -19,9 +19,14 @@
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
   if ([@"show" isEqualToString:call.method]) {
-      
+      _myWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+      _myWindow.windowLevel = UIWindowLevelStatusBar;
+      _myWindow.backgroundColor = UIColor.redColor;
+      _myWindow.hidden = NO;
+//      [_myWindow makeKeyAndVisibl]
   } else if ([@"hide" isEqualToString:call.method]) {
-      
+      _myWindow.hidden = YES;
+      _myWindow = nil;
   } else {
     result(FlutterMethodNotImplemented);
   }
