@@ -8,8 +8,10 @@
  */
 #import "FlutterSplashScreenPlugin.h"
 
+static UIWindow *myWindow;
+
 @implementation FlutterSplashScreenPlugin
-+ (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
++(void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
   FlutterMethodChannel* channel = [FlutterMethodChannel
       methodChannelWithName:@"flutter_splash_screen"
             binaryMessenger:[registrar messenger]];
@@ -17,16 +19,33 @@
   [registrar addMethodCallDelegate:instance channel:channel];
 }
 
-- (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
++(UIWindow *)show
+{
+    NSLog(@"aaa");
+    myWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    myWindow.windowLevel = UIWindowLevelStatusBar;
+    myWindow.backgroundColor = UIColor.whiteColor;
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"LaunchScreen" bundle:nil];
+    UIViewController *launchController = [storyboard instantiateInitialViewController];
+    myWindow.rootViewController = launchController;
+    myWindow.hidden = NO;
+    [myWindow makeKeyAndVisible];
+    return myWindow;
+}
+
++(void)hide
+{
+    if (myWindow != nil) {
+        myWindow.hidden = YES;
+        myWindow = nil;
+    }
+}
+
+-(void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
   if ([@"show" isEqualToString:call.method]) {
-      _myWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-      _myWindow.windowLevel = UIWindowLevelStatusBar;
-      _myWindow.backgroundColor = UIColor.redColor;
-      _myWindow.hidden = NO;
-//      [_myWindow makeKeyAndVisibl]
+      [FlutterSplashScreenPlugin show];
   } else if ([@"hide" isEqualToString:call.method]) {
-      _myWindow.hidden = YES;
-      _myWindow = nil;
+      [FlutterSplashScreenPlugin hide];
   } else {
     result(FlutterMethodNotImplemented);
   }

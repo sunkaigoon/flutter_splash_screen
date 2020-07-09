@@ -10,6 +10,8 @@
 #import <Flutter/Flutter.h>
 
 @interface FlutterSplashScreenPlugin : NSObject<FlutterPlugin>
-@property (nonatomic, strong) UIWindow *myWindow;
++(UIWindow *) show;
+
++(void) hide;
 
 @end
