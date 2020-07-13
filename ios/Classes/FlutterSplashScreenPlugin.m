@@ -21,7 +21,6 @@ static UIWindow *myWindow;
 
 +(UIWindow *)show
 {
-    NSLog(@"aaa");
     myWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     myWindow.windowLevel = UIWindowLevelStatusBar;
     myWindow.backgroundColor = UIColor.whiteColor;
